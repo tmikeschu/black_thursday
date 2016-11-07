@@ -236,7 +236,8 @@ class SalesAnalyst
     items_and_revenues = item_revenues_of_merchant(merchant_id)
     items              = items_and_revenues.keys
     item = items.max_by { |item| items_and_revenues[item] }
-    sales_engine.items.find_by_id(item).to_a
+    return [] unless item
+    sales_engine.items.find_by_id(item)
   end
 
   def item_revenues_of_merchant(merchant_id)
