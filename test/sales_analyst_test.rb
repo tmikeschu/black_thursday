@@ -206,6 +206,14 @@ class SalesAnalystTest < Minitest::Test
   def test_item_quantities_of_merchant_is_a_hash
     assert_equal Hash, sales_analyst.item_quantities_of_merchant(12334115).class
   end
+  
+  def test_most_sold_items_is_an_array
+    assert_equal Array, sales_analyst.most_sold_items.class
+  end
+
+  def test_item_quantities_is_a_hash
+    assert_equal Hash, sales_analyst.item_quantities.class
+  end
 
   def test_all_invoice_items_is_an_array
     invoices = sales_analyst.sales_engine.find_invoices(12334105)
@@ -217,12 +225,25 @@ class SalesAnalystTest < Minitest::Test
     assert sales_analyst.complete_invoices(invoices).all? { |invoice| invoice.class == Invoice}
   end
 
-  def test_best_item_for_merchant #test files are too disparate to find associated values. spec harness works.
-    assert_nil sales_analyst.best_item_for_merchant(12334115)
+  def test_best_item_for_merchant
+    assert_equal [], sales_analyst.best_item_for_merchant(12334115)
   end
 
   def test_items_and_revenue_is_a_hash
     assert_equal Hash, sales_analyst.item_revenues_of_merchant(12334115).class
+  end
+
+  def test_best_items_returns_top_revenue_items_in_an_array
+    assert_equal Array, sales_analyst.best_items.class
+  end
+
+  def test_item_revenues_is_a_hash
+    assert_equal Hash, sales_analyst.item_revenues.class
+  end
+
+  def test_top_items_by_revenue
+    result = sales_analyst.top_items_by_revenue({111111 => 10, 22222 => 15})
+    assert_equal Array, result.class
   end
 
 end
