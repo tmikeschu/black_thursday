@@ -1,0 +1,37 @@
+<html>
+  <head>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+      google.charts.load("current", {packages:["corechart"]});
+      google.charts.setOnLoadCallback(drawChart);
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+          ['Month', 'Numbers of Registrations'],
+          ['January', 36],
+          ['February', 40],
+          ['March',  41],
+          ['April', 45],
+          ['May', 41],
+          ['June', 30],
+          ['July', 34],
+          ['August', 36],
+          ['September', 42],
+          ['October', 45],
+          ['November', 43],
+          ['December', 41]
+        ]);
+
+        var options = {
+          title: 'Number of Registrations per Month',
+          is3D: true,
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('piechart_3d'));
+        chart.draw(data, options);
+      }
+    </script>
+  </head>
+  <body>
+    <div id="piechart_3d" style="width: 900px; height: 500px;"></div>
+  </body>
+</html>
