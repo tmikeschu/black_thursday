@@ -1,0 +1,32 @@
+<html>
+  <head>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+      google.charts.load('current', {'packages':['table']});
+      google.charts.setOnLoadCallback(drawTable);
+
+      function drawTable() {
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Item Name');
+        data.addColumn('string', 'Merchant Name');
+        data.addColumn('number', 'Total Revenue');
+        data.addRows([
+          ["Catnip Pillow / Cat Toy Containing Strong Dried CATNIP",
+          "DizzyUnicornDesigns", {v: 86800.77, f: '$86800.77'}],
+          ["SKULLS", "5Wbrand",  {v:77160.88,   f: '$77160.88'}],
+          ["Buddha Fett", "MattsNerdShoppe", {v: 73853.92, f: '$73853.92'}],
+          ["Kindersocken (Söckchen), hangestrickt, Länge ca.15 cm, beige (eierschalenfarben)",
+            "MuttisStrickwaren",  {v: 65397.63,  f: '$65397.63'}],
+          ["knit baby yoda hat", "Princessfrankknits", {v: 63009.02,  f: '$63009.02'}]
+        ]);
+
+        var table = new google.visualization.Table(document.getElementById('table_div'));
+
+        table.draw(data, {showRowNumber: true, width: '50%', height: '50%'});
+      }
+    </script>
+  </head>
+  <body>
+    <div id="table_div"></div>
+  </body>
+</html>
