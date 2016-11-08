@@ -30,27 +30,27 @@ class CustomerRepositoryTest < Minitest::Test
     assert_equal CSV, customer_repo.file_contents.class
   end
 
-  def test_it_generates_array_of_item_objects_from_csv_object
+  def test_it_generates_array_of_customer_objects_from_csv_object
     assert customer_repo.all.all?{|row| row.class == Customer}
   end
 
-  def test_it_calls_id_of_item_object
+  def test_it_calls_id_of_customer_object
     assert_equal 1, customer_repo.all[0].id
+    assert_equal 6, customer_repo.all[5].id
   end
 
-  def test_it_retrieves_all_item_objects
-    assert_equal Customer, customer_repo.all[0].class
-    assert_equal 21, customer_repo.all.count
-  end
-
-  def test_item_ids_are_uniq
+  def test_customer_ids_are_uniq
     ids = customer_repo.all {|row| row[:id]}
     assert_equal ids, ids.uniq
   end
 
   def test_find_invoice_by_id_returns_an_instance_of_invoice
-    customers = customer_repo.find_by_id(1)
-    assert_equal Customer, customers.class
+    customer = customer_repo.find_by_id(1)
+    assert_equal Customer, customer.class
+    assert_equal 1, customer.id
+    customer = customer_repo.find_by_id(11)
+    assert_equal Customer, customer.class
+    assert_equal 11, customer.id
   end
 
   def test_it_returns_nil_if_id_not_found
@@ -58,14 +58,17 @@ class CustomerRepositoryTest < Minitest::Test
     assert_equal nil,customers
   end
 
-  def test_it_finds_all_items_by_first_name
+  def test_it_finds_all_customers_by_first_name
     customers  = customer_repo.find_all_by_first_name("Ramona")
     assert_equal 2, customers.count
+    assert customers.all?{|customer| customer.class == Customer}
+    assert_equal ["Ramona", "Ramona"], customers.map{|customer| customer.first_name}
   end
 
-  def test_it_finds_all_items_by_a_fragment_first_name
+  def test_it_finds_all_customers_by_a_fragment_first_name
     customers  = customer_repo.find_all_by_first_name("ar")
     assert_equal 3, customers.count
+    assert_equal ["Mariah", "Parker", "Oscar"], customers.map {|customer| customer.first_name}
   end
 
   def test_it_returns_empty_array_if_no_first_names_are_found
@@ -73,9 +76,11 @@ class CustomerRepositoryTest < Minitest::Test
     assert_equal [], customers
   end
 
-  def test_it_finds_all_items_by_a_fragment_last_name
+  def test_it_finds_all_customers_by_a_fragment_last_name
     customers  = customer_repo.find_all_by_last_name("ad")
     assert_equal 2, customers.count
+    assert customers.all?{|customer| customer.class == Customer}    
+    assert_equal ["Nader", "Fadel"], customers.map {|customer| customer.last_name}
   end
 
   def test_it_returns_empty_array_if_no_last_names_are_found
