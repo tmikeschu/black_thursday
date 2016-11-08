@@ -17,7 +17,7 @@ class TransactionRepositoryTest < Minitest::Test
   end
 
   def test_it_has_custom_inspect
-    assert_equal "#<TransactionRepository: 12 rows>", @transaction_repo.inspect
+    assert_equal "#<TransactionRepository: 42 rows>", @transaction_repo.inspect
   end
 
   def test_find_invoice_by_id_calls_parent
