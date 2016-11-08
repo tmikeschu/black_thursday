@@ -33,8 +33,8 @@
         var options = {
           width: 900,
           chart: {
-            title: 'Top 20 Standard Deviations',
-            subtitle: 'Number of Items per Merchants'
+            title: 'Top 20 Merchants by Item Count',
+            subtitle: 'At least one standard deviation above average'
           },
           series: {
             0: { axis: 'Merchants' },
@@ -43,7 +43,7 @@
           axes: {
             y: {
               distance: {label: 'Merchants'},
-              brightness: {side: 'right', label: 'apparent magnitude'}
+              brightness: {side: 'right', label: 'Item count'}
             }
           }
         };

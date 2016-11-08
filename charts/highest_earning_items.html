@@ -22,7 +22,10 @@
 
         var table = new google.visualization.Table(document.getElementById('table_div'));
 
-        table.draw(data, {showRowNumber: true, width: '50%', height: '50%'});
+        var options = {'title': 'Highest Earning Items',
+                     'width':400,
+                     'height':300};
+        table.draw(data, options, {showRowNumber: true, width: '50%', height: '50%'});
       }
     </script>
   </head>
