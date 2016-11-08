@@ -53,8 +53,7 @@ class MerchantRepositoryTest < Minitest::Test
   end
 
   def test_it_generates_array_of_merchant_objects_from_csv_object
-    assert_equal Merchant, @merch_repo.all[0].class
-    assert_equal Merchant, @merch_repo.all[1].class
+    assert @merch_repo.all.all? {|merchant| merchant.class == Merchant}
   end
 
   def test_it_calls_id_of_merchant_object
@@ -65,8 +64,11 @@ class MerchantRepositoryTest < Minitest::Test
     assert_equal "Shopin1901", @merch_repo.all[0].name
   end
 
+  def test_it_calls_name_of_different_merchant_object
+    assert_equal "Urcase17", @merch_repo.all[8].name
+  end
+
   def test_it_retrieves_all_merchant_objects
-    assert_equal Merchant, @merch_repo.all[0].class
     assert_equal 21, @merch_repo.all.count
   end
 
@@ -79,6 +81,12 @@ class MerchantRepositoryTest < Minitest::Test
     merchant = @merch_repo.find_by_id(1)
     assert_equal Merchant, merchant.class
     assert_equal 1, merchant.id
+  end
+
+  def test_it_finds_merchant_by_id_for_different_merchant
+    merchant = @merch_repo.find_by_id(17)
+    assert_equal Merchant, merchant.class
+    assert_equal 17, merchant.id
   end
 
   def test_it_returns_nil_if_id_not_found
@@ -95,10 +103,10 @@ class MerchantRepositoryTest < Minitest::Test
   end
 
   def test_it_finds_merchant_by_name_case_insensitive
-    name = "Shopin1901"
+    name = "KeckenBAuer"
     merchant = @merch_repo.find_by_name(name.upcase)
     assert_equal Merchant, merchant.class
-    assert_equal name, merchant.name
+    assert_equal name.capitalize, merchant.name
   end
 
   def test_it_returns_nil_if_name_not_found
@@ -110,6 +118,13 @@ class MerchantRepositoryTest < Minitest::Test
   def test_it_finds_all_merchants_by_name
     name      = "shop"
     shops     = ["Shopin1901", "GoldenRaySHop"]
+    merchants = @merch_repo.find_all_by_name(name)
+    assert_equal shops, merchants.map{|merchant| merchant.name}
+  end
+
+  def test_it_finds_all_merchants_by_name_fragment_case_insensitive
+    name      = "OWLS"
+    shops     = ["BowlsByChris", "LowlsLyChris"]
     merchants = @merch_repo.find_all_by_name(name)
     assert_equal shops, merchants.map{|merchant| merchant.name}
   end
