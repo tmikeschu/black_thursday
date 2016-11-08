@@ -51,7 +51,7 @@ class InvoiceItemTest < Minitest::Test
     assert_equal 1, @invoice_item1.id
   end
 
-  def test_it_initializes_item_item_id
+  def test_it_initializes_item_id
     assert_equal 263519844, @invoice_item1.item_id
   end
 
@@ -59,21 +59,21 @@ class InvoiceItemTest < Minitest::Test
     assert_equal 1, @invoice_item1.invoice_id
   end
 
-  def test_it_initializes_item_unit_price
+  def test_it_initializes_invoice_item_unit_price
     expected = BigDecimal.new(0.25E2,9)
     assert_equal expected, @invoice_item1.unit_price
   end
 
-  def test_it_initializes_item_quantity
+  def test_it_initializes_invoice_item_quantity
     assert_equal 5, @invoice_item1.quantity
   end
 
-  def test_it_initializes_item_create_time
+  def test_it_initializes_invoice_item_create_time
     expected = Time.parse("2016-11-01 11:38:28 -0600")
     assert_equal expected, @invoice_item1.created_at
   end
 
-  def test_it_initializes_item_update_time
+  def test_it_initializes_invoice_item_update_time
     expected = Time.parse("2016-11-01 14:38:28 -0600")
     assert_equal expected, @invoice_item1.updated_at
   end
@@ -86,7 +86,7 @@ class InvoiceItemTest < Minitest::Test
     assert_equal 0, @invoice_item2.id
   end
 
-  def test_it_returns_zero_if_there_is_no__item_id_given
+  def test_it_returns_zero_if_there_is_no_item_id_given
     assert_equal 0, @invoice_item2.item_id
   end
 
@@ -98,14 +98,14 @@ class InvoiceItemTest < Minitest::Test
     assert_equal 0, @invoice_item2.unit_price
   end
 
-  def test_it_returns_blank_item_object_if_no_data_passed
+  def test_it_returns_blank_invoice_item_object_if_no_data_passed
     assert_equal InvoiceItem, @invoice_item3.class
     assert_nil @invoice_item3.id
     assert_nil @invoice_item3.created_at
     assert_nil @invoice_item3.unit_price
   end
 
-  def test_it_returns_blank_item_object_if_empty_hash_passed
+  def test_it_returns_blank_invoice_item_object_if_empty_hash_passed
     assert_equal InvoiceItem, @invoice_item4.class
     assert_nil @invoice_item4.id
     assert_nil @invoice_item4.unit_price
