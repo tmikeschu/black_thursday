@@ -21,52 +21,52 @@ class SalesEngineTest < Minitest::Test
   end
 
   def test_items_are_found_from_merchant_level
-    merchant = sales_engine.merchants.find_by_id(12334185)
-    assert_equal 3, merchant.items.count
+    merchant = sales_engine.merchants.find_by_id(5)
+    assert_equal 2, merchant.items.count
     assert merchant.items.all?{|item| item.class == Item}
   end
   
   def test_items_are_found_from_different_merchant
-    merchant = sales_engine.merchants.find_by_id(12334195)
-    assert_equal 12, merchant.items.count
+    merchant = sales_engine.merchants.find_by_id(4)
+    assert_equal 1, merchant.items.count
     assert merchant.items.all?{|item| item.class == Item}
   end
 
   def test_items_are_found_from_different_merchant_with_one_item
-    merchant = sales_engine.merchants.find_by_id(12334257)
+    merchant = sales_engine.merchants.find_by_id(1)
     assert_equal 1, merchant.items.count
     assert merchant.items.one?{|item| item.class == Item}
   end
 
   def test_invoices_are_found_from_merchant_level
-    merchant = sales_engine.merchants.find_by_id(12334208)
-    assert_equal 1, merchant.invoices.count
-    assert_equal 30, merchant.invoices.first.id
+    merchant = sales_engine.merchants.find_by_id(5)
+    assert_equal 2, merchant.invoices.count
+    assert_equal 5, merchant.invoices.first.id
     assert merchant.invoices.all?{|invoice| invoice.class == Invoice}
   end
 
   def test_customers_are_found_from_merchant_level
-    merchant = sales_engine.merchants.find_by_id(12334208)
+    merchant = sales_engine.merchants.find_by_id(2)
     assert_equal 1, merchant.customers.count
-    assert_equal 7, merchant.customers.first.id
+    assert_equal 2, merchant.customers.first.id
     assert merchant.customers.all?{|customer| customer.class == Customer}
   end
 
   def test_merchant_is_found_from_item_level
-    item = sales_engine.items.find_by_id(263395237)
+    item = sales_engine.items.find_by_id(9)
     assert_equal Merchant, item.merchant.class
-    assert_equal 12334141, item.merchant.id
+    assert_equal 9, item.merchant.id
   end
 
   def test_merchant_is_found_from_invoice_level
-    invoice = sales_engine.invoices.find_by_id(30)
-    assert_equal 12334208, invoice.merchant.id
+    invoice = sales_engine.invoices.find_by_id(3)
+    assert_equal 3, invoice.merchant.id
     assert_equal Merchant, invoice.merchant.class
   end
 
   def test_customer_is_found_from_invoice_level
     invoice = sales_engine.invoices.find_by_id(5)
-    assert_equal 1, invoice.customer.id
+    assert_equal 5, invoice.customer.id
     assert_equal Customer, invoice.customer.class
   end
 
@@ -87,9 +87,9 @@ class SalesEngineTest < Minitest::Test
   end
 
   def test_invoice_is_found_from_transaction_level
-    transaction = sales_engine.transactions.find_by_id(40)
+    transaction = sales_engine.transactions.find_by_id(8)
     assert_equal Invoice, transaction.invoice.class
-    assert_equal 14, transaction.invoice.id
+    assert_equal 8, transaction.invoice.id
   end
   
   def test_invoice_is_found_from_invoice_item_level
@@ -99,9 +99,9 @@ class SalesEngineTest < Minitest::Test
   end
   
   def test_item_is_found_from_invoice_item_level
-    invoice_item = sales_engine.invoice_items.find_by_id(55)
+    invoice_item = sales_engine.invoice_items.find_by_id(7)
     assert_equal Item, invoice_item.item.class
-    assert_equal 263397059, invoice_item.item.id
+    assert_equal 7, invoice_item.item.id
   end
 
   def test_merchants_are_found_from_customer_level
