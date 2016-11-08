@@ -1,6 +1,9 @@
 require_relative 'statistics'
 require_relative 'item_count_analyst'
 require_relative 'item_price_analyst'
+require_relative 'invoice_count_analyst'
+require_relative 'merchant_revenue_analyst'
+require_relative 'pending_analyst'
 require 'date'
 
 class SalesAnalyst
@@ -11,18 +14,47 @@ class SalesAnalyst
   def_delegator :item_count_analyst, :average_items_per_merchant
   def_delegator :item_count_analyst, :average_items_per_merchant_standard_deviation
   def_delegator :item_count_analyst, :merchants_with_high_item_count
+
   def_delegator :item_price_analyst, :average_item_price_for_merchant
   def_delegator :item_price_analyst, :average_average_price_per_merchant
   def_delegator :item_price_analyst, :golden_items
   def_delegator :item_price_analyst, :average_item_price
   def_delegator :item_price_analyst, :item_price_standard_deviation
 
-  attr_reader :sales_engine, :item_count_analyst, :item_price_analyst
+  def_delegator :invoice_count_analyst, :average_invoices_per_merchant
+  def_delegator :invoice_count_analyst, :average_invoices_per_merchant_standard_deviation
+  def_delegator :invoice_count_analyst, :top_merchants_by_invoice_count
+  def_delegator :invoice_count_analyst, :bottom_merchants_by_invoice_count
+  def_delegator :invoice_count_analyst, :top_days_by_invoice_count
+  def_delegator :invoice_count_analyst, :invoices_by_day
+  def_delegator :invoice_count_analyst, :invoice_days
+  def_delegator :invoice_count_analyst, :average_invoices_per_day
+  def_delegator :invoice_count_analyst, :average_invoices_per_day_standard_deviation
+  def_delegator :invoice_count_analyst, :invoice_status
+  def_delegator :invoice_count_analyst, :all_invoices_by_status
+
+  def_delegator :merchant_revenue_analyst, :total_revenue_by_date
+  def_delegator :merchant_revenue_analyst, :invoices_on_date
+  def_delegator :merchant_revenue_analyst, :top_revenue_earners
+  def_delegator :merchant_revenue_analyst, :merchants_ranked_by_revenue
+  def_delegator :merchant_revenue_analyst, :invoices_total
+  def_delegator :merchant_revenue_analyst, :merchants_and_invoices
+  def_delegator :merchant_revenue_analyst, :revenue_by_merchant
+  
+  def_delegator :pending_analyst, :merchants_with_pending_invoices
+  def_delegator :pending_analyst, :pending_invoices
+  def_delegator :pending_analyst, :pending?
+
+  attr_reader :sales_engine, :item_count_analyst, :item_price_analyst,
+              :invoice_count_analyst, :merchant_revenue_analyst, :pending_analyst
 
   def initialize(sales_engine)
     @sales_engine  = sales_engine
     @item_count_analyst = ItemCountAnalyst.new(sales_engine)
     @item_price_analyst = ItemPriceAnalyst.new(sales_engine)
+    @invoice_count_analyst = InvoiceCountAnalyst.new(sales_engine)
+    @merchant_revenue_analyst = MerchantRevenueAnalyst.new(sales_engine)
+    @pending_analyst = PendingAnalyst.new(sales_engine)
   end
 
   def items
@@ -35,111 +67,7 @@ class SalesAnalyst
 
   def invoices
     sales_engine.all_invoices
-  end
-
-
-  def average_invoices_per_merchant
-    average(merchants.map { |merchant| merchant.invoices.count })
-  end
-
-  def average_invoices_per_merchant_standard_deviation
-    standard_deviation(merchants.map { |merchant| merchant.invoices.count })
-  end
-
-  def top_merchants_by_invoice_count
-    mean       = average_invoices_per_merchant
-    std_dev    = average_invoices_per_merchant_standard_deviation
-    threshhold = mean + (std_dev * 2)
-    merchants.find_all { |merchant| merchant.invoices.count > threshhold }
-  end
-
-  def bottom_merchants_by_invoice_count
-    mean       = average_invoices_per_merchant
-    std_dev    = average_invoices_per_merchant_standard_deviation
-    threshhold = mean - (std_dev * 2)
-    merchants.find_all { |merchant| merchant.invoices.count < threshhold }
-  end
-
-  def top_days_by_invoice_count
-    mean       = average_invoices_per_day
-    std_dev    = average_invoices_per_day_standard_deviation
-    threshhold = mean + std_dev
-    invoices_by_day.keys.find_all { |day| invoices_by_day[day] > threshhold }
-  end
-
-  def invoices_by_day
-    invoice_days.reduce ({}) do |result, day|
-      result[day]  = 0 if result[day].nil?
-      result[day] += 1
-      result
-    end
-  end
-
-  def invoice_days
-    invoices.map { |invoice| Date::DAYNAMES[invoice.created_at.wday] }
-  end
-
-  def average_invoices_per_day
-    average(invoices_by_day.values)
-  end
-
-  def average_invoices_per_day_standard_deviation
-    standard_deviation(invoices_by_day.values)
-  end
-
-  def invoice_status(invoice_status)
-    status = all_invoices_by_status(invoice_status).count.to_f
-    count  = invoices.count.to_f
-    ((status / count) * 100).round(2)
-  end
-
-  def all_invoices_by_status(invoice_status)
-    invoices.find_all { |row| row.status.to_sym == invoice_status.to_sym }
-  end
-
-  def total_revenue_by_date(date)
-    total = invoices_total(invoices_on_date(date))
-    return total.round(2) if total
-    0
-  end
-
-  def invoices_on_date(date)
-    date = date.strftime('%F')
-    invoices.find_all do |invoice|
-      invoice.created_at.strftime('%F') == date
-    end
-  end
-
-  def top_revenue_earners(number = 20)
-    merchants_ranked_by_revenue.first(number)
-  end
-
-  def merchants_ranked_by_revenue
-    sorted = merchants_and_invoices.keys.sort_by do |merchant|
-      invoices_total(merchants_and_invoices[merchant])
-    end.reverse
-    sorted.map { |merchant_id| sales_engine.merchants.find_by_id(merchant_id) }
-  end
-
-  def invoices_total(invoices)
-    invoices.map { |invoice| invoice.total }.reduce(:+)
-  end
-
-  def merchants_and_invoices
-    invoices.group_by { |invoice| invoice.merchant_id }
-  end
-
-  def merchants_with_pending_invoices
-    pending_invoices.map { |pender| pender.merchant }.uniq
-  end
-
-  def pending_invoices
-    invoices.find_all { |invoice| pending?(invoice) }
-  end
-
-  def pending?(invoice)
-    invoice.transactions.all? { |transaction| transaction.result == "failed" }
-  end
+  end 
 
   def merchants_with_only_one_item
     merchants = items.group_by { |item| item.merchant_id }
@@ -157,11 +85,6 @@ class SalesAnalyst
     merchants.group_by do |merchant|
       Date::MONTHNAMES[merchant.created_at.month]
     end
-  end
-
-  def revenue_by_merchant(merchant_id)
-    merchant = sales_engine.merchants.find_by_id(merchant_id)
-    invoices_total(merchant.invoices).round(2)
   end
 
   def most_sold_item_for_merchant(merchant_id)

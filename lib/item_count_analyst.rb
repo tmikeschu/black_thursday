@@ -5,7 +5,7 @@ class ItemCountAnalyst
   
   include Statistics
 
-  attr_reader :sales_engine, :item_count_analyst
+  attr_reader :sales_engine
 
   def initialize(sales_engine)
     @sales_engine  = sales_engine
