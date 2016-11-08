@@ -64,7 +64,7 @@ class InvoiceTest < Minitest::Test
     @invoice1.parent.verify
   end
 
-  def test_it_initializes_item_id
+  def test_it_initializes_invoice_id
     assert_equal 5, @invoice1.id
   end
 
@@ -76,17 +76,17 @@ class InvoiceTest < Minitest::Test
     assert_equal :pending, @invoice1.status
   end
 
-  def test_it_initializes_item_create_time
+  def test_it_initializes_invoice_create_time
     expected = Time.parse("2016-11-01 11:38:28 -0600")
     assert_equal expected, @invoice1.created_at
   end
 
-  def test_it_initializes_item_update_time
+  def test_it_initializes_invoice_update_time
     expected = Time.parse("2016-11-01 14:38:28 -0600")
     assert_equal expected, @invoice1.updated_at
   end
 
-  def test_it_initializes_item_merchant_id
+  def test_it_initializes_invoice_merchant_id
     assert_equal 10, @invoice1.merchant_id
   end
 
@@ -106,14 +106,14 @@ class InvoiceTest < Minitest::Test
     assert_equal 0, @invoice2.merchant_id
   end
 
-  def test_it_returns_blank_item_object_if_no_data_passed
+  def test_it_returns_blank_invoice_object_if_no_data_passed
     assert_equal Invoice, @invoice3.class
     assert_nil @invoice3.id
     assert_nil @invoice3.created_at
     assert_nil @invoice3.status
   end
 
-  def test_it_returns_blank_item_object_if_empty_hash_passed
+  def test_it_returns_blank_invoice_object_if_empty_hash_passed
     assert_equal Invoice, @invoice4.class
     assert_nil @invoice4.customer_id
     assert_nil @invoice4.unit_price
@@ -129,6 +129,14 @@ class InvoiceTest < Minitest::Test
     invoice = sales_engine.find_invoice_by_id(8)
     expected = BigDecimal.new('0.625848E4')
     assert_equal expected, invoice.total
+  end
+
+  def test_total_calls_parent_and_items_for_different_id
+    sales_engine = SalesEngine.from_csv({
+      :invoices      => "./data/test_invoices.csv",
+      :invoice_items => "./data/test_invoice_items.csv",
+      :transactions  => "./data/test_transactions.csv"      
+    })
     invoice = sales_engine.find_invoice_by_id(9)
     assert_equal 0, invoice.total
   end
@@ -138,8 +146,8 @@ class InvoiceTest < Minitest::Test
       :invoices      => "./data/test_invoices.csv",
       :transactions  => "./data/test_transactions.csv"
     })
-    invoice = sales_engine.find_invoice_by_id(8)
-    assert_equal true, invoice.is_paid_in_full?
+    invoice = sales_engine.find_invoice_by_id(15)
+    assert invoice.is_paid_in_full?
   end
 
 end
