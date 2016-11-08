@@ -1,7 +1,7 @@
 require_relative 'statistics'
 require 'date'
 
-class SalesAnalyst
+class ItemCountAnalyst
   
   include Statistics
 

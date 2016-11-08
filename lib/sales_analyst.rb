@@ -1,21 +1,28 @@
 require_relative 'statistics'
 require_relative 'item_count_analyst'
+require_relative 'item_price_analyst'
 require 'date'
 
 class SalesAnalyst
   
-  extend Forwardable
   include Statistics
 
+  extend Forwardable
   def_delegator :item_count_analyst, :average_items_per_merchant
-  def_delegator :item_count_analyst, :average_items_per_merchant
+  def_delegator :item_count_analyst, :average_items_per_merchant_standard_deviation
   def_delegator :item_count_analyst, :merchants_with_high_item_count
+  def_delegator :item_price_analyst, :average_item_price_for_merchant
+  def_delegator :item_price_analyst, :average_average_price_per_merchant
+  def_delegator :item_price_analyst, :golden_items
+  def_delegator :item_price_analyst, :average_item_price
+  def_delegator :item_price_analyst, :item_price_standard_deviation
 
-  attr_reader :sales_engine, :item_count_analyst
+  attr_reader :sales_engine, :item_count_analyst, :item_price_analyst
 
   def initialize(sales_engine)
     @sales_engine  = sales_engine
     @item_count_analyst = ItemCountAnalyst.new(sales_engine)
+    @item_price_analyst = ItemPriceAnalyst.new(sales_engine)
   end
 
   def items
@@ -30,33 +37,6 @@ class SalesAnalyst
     sales_engine.all_invoices
   end
 
-  def average_item_price_for_merchant(id)
-    merch_items = sales_engine.merchants.find_by_id(id).items
-    return 0 if merch_items.empty?
-    average(merch_items.map { |row| row.unit_price })
-  end
-
-  def average_average_price_per_merchant
-    averages = merchants.map do |merchant|
-      average_item_price_for_merchant(merchant.id)
-    end
-    average(averages)
-  end
-
-  def golden_items
-    mean       = average_item_price
-    std_dev    = item_price_standard_deviation
-    threshhold = mean + (std_dev * 2)
-    items.find_all { |item| item.unit_price > threshhold }
-  end
-
-  def average_item_price
-    average(items.map { |item| item.unit_price })
-  end
-
-  def item_price_standard_deviation
-    standard_deviation(items.map { |item| item.unit_price })
-  end
 
   def average_invoices_per_merchant
     average(merchants.map { |merchant| merchant.invoices.count })
