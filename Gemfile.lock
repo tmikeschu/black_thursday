@@ -14,11 +14,16 @@ GEM
       descendants_tracker (~> 0.0.1)
     descendants_tracker (0.0.4)
       thread_safe (~> 0.3, >= 0.3.1)
+    diff-lcs (1.2.5)
     docile (1.1.5)
     equalizer (0.0.11)
     ice_nine (0.11.2)
     json (2.0.2)
     minitest (5.9.1)
+    minitest-nyan-cat (0.0.1)
+      nyan-cat-formatter (= 0.11)
+    nyan-cat-formatter (0.11)
+      rspec (>= 2.99, >= 2.14.2, < 4)
     parallel (1.9.0)
     parser (2.3.1.4)
       ast (~> 2.2)
@@ -28,6 +33,19 @@ GEM
       codeclimate-engine-rb (~> 0.4.0)
       parser (~> 2.3.1, >= 2.3.1.2)
       rainbow (~> 2.0)
+    rspec (3.5.0)
+      rspec-core (~> 3.5.0)
+      rspec-expectations (~> 3.5.0)
+      rspec-mocks (~> 3.5.0)
+    rspec-core (3.5.4)
+      rspec-support (~> 3.5.0)
+    rspec-expectations (3.5.0)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.5.0)
+    rspec-mocks (3.5.0)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.5.0)
+    rspec-support (3.5.0)
     simplecov (0.12.0)
       docile (~> 1.1.0)
       json (>= 1.8, < 3)
@@ -46,9 +64,10 @@ PLATFORMS
 DEPENDENCIES
   cane
   minitest
+  minitest-nyan-cat
   rake
   reek
   simplecov
 
 BUNDLED WITH
-   1.13.2
+   1.13.6
