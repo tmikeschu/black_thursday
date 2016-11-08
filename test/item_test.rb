@@ -76,6 +76,10 @@ class ItemTest < Minitest::Test
   def test_it_returns_unit_price_in_dollars
     assert_equal 25.01, @item1.unit_price_to_dollars("2501")
   end
+  
+  def test_it_returns_price_length
+    assert_equal 3, @item1.price_length 
+  end
 
   def test_it_returns_zero_if_there_is_no_id_given
     assert_equal 0, @item2.id
