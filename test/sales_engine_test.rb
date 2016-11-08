@@ -48,10 +48,16 @@ class SalesEngineTest < Minitest::Test
     assert_equal CustomerRepository, @sales_engine.customers.class
   end
 
-  def test_find_items_by_merchant_id_finds_merchant
-    expected = sales_engine.find_items_by_merchant_id(12334105)
+  def test_find_items_by_merchant_id_finds_items
+    expected = sales_engine.find_items_by_merchant_id(18)
     assert expected.all?{|item| item.class == Item}
-    assert expected.all?{|item| item.merchant_id == 12334105}
+    assert expected.all?{|item| item.merchant_id == 18}
+  end
+
+  def test_find_items_by_different_merchant_id
+    expected = sales_engine.find_items_by_merchant_id(55)
+    assert expected.all?{|item| item.class == Item}
+    assert expected.all?{|item| item.merchant_id == 55}
   end
 
   def test_find_merchant_by_id_returns_merchant_object
@@ -60,10 +66,22 @@ class SalesEngineTest < Minitest::Test
     assert_equal expected.id, sales_engine.merchants.find_by_id(7).id
   end
 
+  def test_find_different_merchant
+    expected = sales_engine.find_merchant_by_id(53)
+    assert_equal Merchant, expected.class
+    assert_equal expected.id, sales_engine.merchants.find_by_id(53).id
+  end
+
   def test_find_invoices_finds_them
-    expected = sales_engine.find_invoices(12334105)
+    expected = sales_engine.find_invoices(3)
     assert expected.all?{|invoice| invoice.class == Invoice}
-    assert expected.all?{|invoice| invoice.merchant_id == 12334105}
+    assert expected.all?{|invoice| invoice.merchant_id == 3}
+  end
+
+  def test_find_other_invoices
+    expected = sales_engine.find_invoices(11)
+    assert expected.all?{|invoice| invoice.class == Invoice}
+    assert expected.all?{|invoice| invoice.merchant_id == 11}
   end
 
   def test_find_invoice_by_id_returns_invoice_object
@@ -86,7 +104,7 @@ class SalesEngineTest < Minitest::Test
 
   def test_find_items_by_invoice_id_finds_them
     expected = sales_engine.find_items_by_invoice_id(1)
-    assert_equal true, expected.all?{|item| item.class == Item}
+    assert expected.all?{|item| item.class == Item}
   end
 
   def test_find_transactions_by_invoice_id_finds_them
