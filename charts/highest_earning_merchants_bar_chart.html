@@ -19,17 +19,17 @@
         var options = {
           width: 900,
           chart: {
-            title: 'Merchant Registrations Per Month',
-            subtitle: 'Number of Registrations'
+            title: 'Top 5 Merchants by Revenue',
+            subtitle: 'Rounded to Nearest Thousand'
           },
           series: {
             0: { axis: 'Merchants' },
-            1: { axis: 'Number of Items' }
+            1: { axis: 'Total Revenue' }
           },
           axes: {
             y: {
               name: {label: 'Merchants'},
-              number_of_items: {side: 'right', label: 'number of items'}
+              number_of_items: {side: 'right', label: 'Total Revenue'}
             }
           }
         };
