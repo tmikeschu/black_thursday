@@ -4,6 +4,7 @@ require_relative 'item_price_analyst'
 require_relative 'invoice_count_analyst'
 require_relative 'merchant_revenue_analyst'
 require_relative 'pending_analyst'
+require_relative 'one_item_merchant_analyst'
 require 'date'
 
 class SalesAnalyst
@@ -44,9 +45,14 @@ class SalesAnalyst
   def_delegator :pending_analyst, :merchants_with_pending_invoices
   def_delegator :pending_analyst, :pending_invoices
   def_delegator :pending_analyst, :pending?
+  
+  def_delegator :one_item_merchant_analyst, :merchants_with_only_one_item
+  def_delegator :one_item_merchant_analyst, :merchants_with_only_one_item_registered_in_month
+  def_delegator :one_item_merchant_analyst, :merchants_by_registration_month
 
   attr_reader :sales_engine, :item_count_analyst, :item_price_analyst,
-              :invoice_count_analyst, :merchant_revenue_analyst, :pending_analyst
+              :invoice_count_analyst, :merchant_revenue_analyst, :pending_analyst,
+              :one_item_merchant_analyst
 
   def initialize(sales_engine)
     @sales_engine  = sales_engine
@@ -55,6 +61,7 @@ class SalesAnalyst
     @invoice_count_analyst = InvoiceCountAnalyst.new(sales_engine)
     @merchant_revenue_analyst = MerchantRevenueAnalyst.new(sales_engine)
     @pending_analyst = PendingAnalyst.new(sales_engine)
+    @one_item_merchant_analyst = OneItemMerchantAnalyst.new(sales_engine)
   end
 
   def items
@@ -68,24 +75,6 @@ class SalesAnalyst
   def invoices
     sales_engine.all_invoices
   end 
-
-  def merchants_with_only_one_item
-    merchants = items.group_by { |item| item.merchant_id }
-    ones = merchants.keys.find_all { |id| merchants[id].count == 1}
-    ones.map { |id| sales_engine.merchants.find_by_id(id) }
-  end
-
-  def merchants_with_only_one_item_registered_in_month(month)
-    merchants_by_registration_month[month].find_all do |merchant|
-      merchant.items.count == 1
-    end
-  end
-
-  def merchants_by_registration_month
-    merchants.group_by do |merchant|
-      Date::MONTHNAMES[merchant.created_at.month]
-    end
-  end
 
   def most_sold_item_for_merchant(merchant_id)
     items_and_count  = item_quantities_of_merchant(merchant_id)
