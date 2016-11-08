@@ -12,7 +12,6 @@ class ItemRevenueAnalyst
 
   include Statistics
 
-
   attr_reader :sales_engine,
               :pending_analyst
 
