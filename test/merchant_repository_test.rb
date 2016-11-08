@@ -13,7 +13,7 @@ class MerchantRepositoryTest < Minitest::Test
   end
 
   def test_it_has_custom_inspect
-    assert_equal "#<MerchantRepository: 21 rows>", @merch_repo.inspect
+    assert_equal "#<MerchantRepository: 31 rows>", @merch_repo.inspect
   end
 
   def test_it_initializes_with_a_file
@@ -69,7 +69,7 @@ class MerchantRepositoryTest < Minitest::Test
   end
 
   def test_it_retrieves_all_merchant_objects
-    assert_equal 21, @merch_repo.all.count
+    assert_equal 31, @merch_repo.all.count
   end
 
   def test_merchant_ids_are_uniq
