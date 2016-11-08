@@ -17,7 +17,7 @@ class ItemRepositoryTest < Minitest::Test
   end
 
   def test_it_has_custom_inspect
-    assert_equal "#<ItemRepository: 116 rows>", @item_repo.inspect
+    assert_equal "#<ItemRepository: 12 rows>", @item_repo.inspect
   end
 
   def test_find_all_by_merchant_id_calls_parent
@@ -35,7 +35,7 @@ class ItemRepositoryTest < Minitest::Test
   end
 
   def test_it_calls_id_of_item_object
-    assert_equal 263395237, @item_repo.all[0].id
+    assert_equal 1, @item_repo.all[0].id
   end
 
   def test_it_calls_name_of_item_object
@@ -44,7 +44,7 @@ class ItemRepositoryTest < Minitest::Test
 
   def test_it_retrieves_all_item_objects
     assert_equal Item, @item_repo.all[0].class
-    assert_equal 116, @item_repo.all.count
+    assert_equal 12, @item_repo.all.count
   end
 
   def test_item_ids_are_uniq
@@ -53,10 +53,9 @@ class ItemRepositoryTest < Minitest::Test
   end
 
   def test_it_finds_item_by_id
-    id = 263395237
-    item = @item_repo.find_by_id(id)
+    item = @item_repo.find_by_id(2)
     assert_equal Item, item.class
-    assert_equal id, item.id
+    assert_equal 2, item.id
   end
 
   def test_it_returns_nil_if_id_not_found
@@ -79,10 +78,10 @@ class ItemRepositoryTest < Minitest::Test
   end
 
   def test_it_finds_items_by_description
-    description = "custom"
+    description = "frames"
     items = @item_repo.find_all_with_description(description)
     assert_equal Item, items.first.class
-    assert_equal 8, items.map{|item| item.description}.count
+    assert_equal 2, items.map{|item| item.description}.count
   end
 
   def test_it_returns_nil_if_description_not_found
@@ -95,7 +94,7 @@ class ItemRepositoryTest < Minitest::Test
     price = 12.00
     items = @item_repo.find_all_by_price(price)
     assert_equal Item, items.first.class
-    assert_equal 2, items.map{|item| item.unit_price}.count
+    assert_equal 1, items.map{|item| item.unit_price}.count
   end
 
   def test_it_returns_nil_if_price_not_found
@@ -108,7 +107,7 @@ class ItemRepositoryTest < Minitest::Test
     price_range = (0..10)
     items = @item_repo.find_all_by_price_in_range(price_range)
     assert_equal Item, items.first.class
-    assert_equal 19, items.count
+    assert_equal 2, items.count
   end
 
   def test_it_returns_nil_if_no_items_in_price_range
@@ -118,10 +117,10 @@ class ItemRepositoryTest < Minitest::Test
   end
 
   def test_it_finds_items_by_merchant_id
-    merchant_id = 12334195
+    merchant_id = 5
     items = @item_repo.find_all_by_merchant_id(merchant_id)
     assert_equal Item, items.first.class
-    assert_equal 12, items.map{|item| item.merchant_id}.count
+    assert_equal 2, items.map{|item| item.merchant_id}.count
   end
 
   def test_it_returns_nil_if_merchant_id_is_not_found
