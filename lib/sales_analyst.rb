@@ -1,14 +1,21 @@
 require_relative 'statistics'
+require_relative 'item_count_analyst'
 require 'date'
 
 class SalesAnalyst
-
+  
+  extend Forwardable
   include Statistics
 
-  attr_reader :sales_engine
+  def_delegator :item_count_analyst, :average_items_per_merchant
+  def_delegator :item_count_analyst, :average_items_per_merchant
+  def_delegator :item_count_analyst, :merchants_with_high_item_count
+
+  attr_reader :sales_engine, :item_count_analyst
 
   def initialize(sales_engine)
-    @sales_engine = sales_engine
+    @sales_engine  = sales_engine
+    @item_count_analyst = ItemCountAnalyst.new(sales_engine)
   end
 
   def items
@@ -21,21 +28,6 @@ class SalesAnalyst
 
   def invoices
     sales_engine.all_invoices
-  end
-
-  def average_items_per_merchant
-    average(merchants.map{ |merchant| merchant.items.count })
-  end
-
-  def average_items_per_merchant_standard_deviation
-    standard_deviation(merchants.map {|merchant| merchant.items.count})
-  end
-
-  def merchants_with_high_item_count
-    mean       = average_items_per_merchant
-    std_dev    = average_items_per_merchant_standard_deviation
-    threshhold = mean + std_dev
-    merchants.find_all { |merchant| merchant.items.count > threshhold }
   end
 
   def average_item_price_for_merchant(id)
