@@ -46,7 +46,7 @@ class SalesAnalystTest < Minitest::Test
 
   def test_average_items_per_merchant_returns_a_float
     assert Float, sales_analyst.average_items_per_merchant.class
-    assert_equal 2.0, sales_analyst.average_items_per_merchant
+    assert_equal 2.13, sales_analyst.average_items_per_merchant
   end
 
   def test_it_calls_sales_engine_object
@@ -54,7 +54,7 @@ class SalesAnalystTest < Minitest::Test
   end
 
   def test_avg_items_per_merch_std_dev_returns_std_dev
-    assert_equal 2.21, sales_analyst.average_items_per_merchant_standard_deviation
+    assert_equal 1.89, sales_analyst.average_items_per_merchant_standard_deviation
   end
 
   def test_average_item_price_per_merchant_returns_a_Big_Decimal
@@ -78,7 +78,7 @@ class SalesAnalystTest < Minitest::Test
   end
 
   def test_it_finds_the_average_of_average_price_per_merchant
-    assert_equal BigDecimal.new('0.203E2'), sales_analyst.average_average_price_per_merchant
+    assert_equal BigDecimal.new('0.10042E3'), sales_analyst.average_average_price_per_merchant
   end
 
   def test_golden_items_returns_items_with_price_greater_than_2_std_devs_above_avg_price
@@ -90,12 +90,12 @@ class SalesAnalystTest < Minitest::Test
 
   def test_average_invoices_per_merchant_returns_a_float_average
     assert_equal Float, sales_analyst.average_invoices_per_merchant.class
-    assert_equal  1.29, sales_analyst.average_invoices_per_merchant
+    assert_equal  1.65, sales_analyst.average_invoices_per_merchant
   end
   
   def test_invoices_per_merchant_standard_deviation
     assert_equal Float, sales_analyst.average_invoices_per_merchant_standard_deviation.class
-    assert_equal 1.01, sales_analyst.average_invoices_per_merchant_standard_deviation
+    assert_equal 1.2, sales_analyst.average_invoices_per_merchant_standard_deviation
   end
 
   def test_top_merchants_by_invoice_count_returns_array_of_top_merchants
@@ -116,15 +116,15 @@ class SalesAnalystTest < Minitest::Test
   end
 
   def test_average_invoices_per_day
-    assert_equal 4.57, sales_analyst.average_invoices_per_day
+    assert_equal 8.0, sales_analyst.average_invoices_per_day
   end
 
   def test_average_invoices_per_day_std_dev
-    assert_equal 2.37, sales_analyst.average_invoices_per_day_standard_deviation
+    assert_equal 3.83, sales_analyst.average_invoices_per_day_standard_deviation
   end
 
   def test_top_days_by_invoice_count_returns_top_day_or_days
-    assert_equal ["Tuesday", "Saturday"], sales_analyst.top_days_by_invoice_count
+    assert_equal ["Saturday"], sales_analyst.top_days_by_invoice_count
   end
   
   def test_invoice_status_returns_a_float
@@ -134,7 +134,7 @@ class SalesAnalystTest < Minitest::Test
 
   def test_invoice_status_returns_the_percentage_of_the_status
     status = :pending
-    assert_equal 43.75, sales_analyst.invoice_status(status)
+    assert_equal 41.07, sales_analyst.invoice_status(status)
   end
 
   def test_total_revenue_by_date_returns_total_rev_by_date
