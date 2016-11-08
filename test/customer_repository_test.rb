@@ -44,13 +44,16 @@ class CustomerRepositoryTest < Minitest::Test
     assert_equal ids, ids.uniq
   end
 
-  def test_find_invoice_by_id_returns_an_instance_of_invoice
+  def test_find_customer_by_id_returns_an_instance_of_customer
     customer = customer_repo.find_by_id(1)
     assert_equal Customer, customer.class
     assert_equal 1, customer.id
-    customer = customer_repo.find_by_id(11)
+  end
+
+  def test_find_customer_by_different_id
+    customer = customer_repo.find_by_id(12)
     assert_equal Customer, customer.class
-    assert_equal 11, customer.id
+    assert_equal 12, customer.id
   end
 
   def test_it_returns_nil_if_id_not_found
