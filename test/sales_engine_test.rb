@@ -138,7 +138,7 @@ class SalesEngineTest < Minitest::Test
   def test_all_transactions_returns_array_of_all_transactions
     assert_equal Array, sales_engine.all_transactions.class
     assert sales_engine.all_transactions.all? { |invoice_item| invoice_item.class == Transaction}
-    assert_equal sales_engine.transactions.all.count, sales_engine.all_invoice_items.count
+    assert_equal sales_engine.transactions.all.count, sales_engine.all_transactions.count
   end
 
   def test_all_customers_returns_array_of_all_customers
