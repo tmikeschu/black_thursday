@@ -17,7 +17,7 @@ class CustomerRepositoryTest < Minitest::Test
   end
 
   def test_it_has_custom_inspect
-    assert_equal "#<CustomerRepository: 21 rows>", customer_repo.inspect
+    assert_equal "#<CustomerRepository: 31 rows>", customer_repo.inspect
   end
 
   def test_find_all_by_merchant_id_calls_parent
