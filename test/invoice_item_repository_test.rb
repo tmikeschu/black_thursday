@@ -17,7 +17,7 @@ class InvoiceItemRepositoryTest < Minitest::Test
   end
 
   def test_it_has_custom_inspect
-    assert_equal "#<InvoiceItemRepository: 74 rows>", @invoice_item.inspect
+    assert_equal "#<InvoiceItemRepository: 12 rows>", @invoice_item.inspect
   end
 
   def test_find_invoice_by_id_calls_parent
@@ -46,7 +46,7 @@ class InvoiceItemRepositoryTest < Minitest::Test
 
   def test_it_retrieves_all_item_objects
     assert_equal InvoiceItem, @invoice_item.all[0].class
-    assert_equal 74, @invoice_item.all.count
+    assert_equal 12, @invoice_item.all.count
   end
 
   def test_item_ids_are_uniq
@@ -68,10 +68,8 @@ class InvoiceItemRepositoryTest < Minitest::Test
   end
 
   def test_it_finds_all_items_by_item_id
-    item_id = 263529264
-    assert_equal Fixnum, item_id.class
-    invoice_items = @invoice_item.find_all_by_item_id(item_id)
-    assert_equal 2, invoice_items.map{|item| item.item_id}.count
+    invoice_items = @invoice_item.find_all_by_item_id(8)
+    assert_equal 1, invoice_items.map{|item| item.item_id}.count
   end
 
   def test_it_returns_nil_if_item_id_not_found
@@ -81,10 +79,10 @@ class InvoiceItemRepositoryTest < Minitest::Test
   end
 
   def test_it_finds_items_by_invoice_id
-    invoice_id = 1
+    invoice_id = 2
     invoice_items = @invoice_item.find_all_by_invoice_id(invoice_id)
     assert_equal InvoiceItem, invoice_items.first.class
-    assert_equal 8, invoice_items.map{|item| item.invoice_id}.count
+    assert_equal 2, invoice_items.map{|item| item.invoice_id}.count
   end
 
   def test_it_returns_empty_array_if_invoice_id_not_found
