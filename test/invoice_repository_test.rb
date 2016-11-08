@@ -17,7 +17,7 @@ class InvoiceRepositoryTest < Minitest::Test
   end
 
   def test_it_has_custom_inspect
-    assert_equal "#<InvoiceRepository: 12 rows>", invoice_repo.inspect
+    assert_equal "#<InvoiceRepository: 32 rows>", invoice_repo.inspect
   end
 
   def test_find_merchant_by_id_calls_parent
@@ -64,7 +64,7 @@ class InvoiceRepositoryTest < Minitest::Test
 
   def test_it_retrieves_all_invoice_objects
     assert_equal Invoice, invoice_repo.all[0].class
-    assert_equal 12, invoice_repo.all.count
+    assert_equal 32, invoice_repo.all.count
   end
 
   def test_invoice_ids_are_uniq
@@ -84,7 +84,7 @@ class InvoiceRepositoryTest < Minitest::Test
 
   def test_it_finds_all_items_by_customer_id
     invoices    = invoice_repo.find_all_by_customer_id(4)
-    assert_equal 2, invoices.count
+    assert_equal 3, invoices.count
   end
 
   def est_it_returns_nil_if_customer_id_is_not_found
@@ -104,7 +104,7 @@ class InvoiceRepositoryTest < Minitest::Test
 
   def test_it_finds_all_of_a_status
     invoices = invoice_repo.find_all_by_status(:pending)
-    assert_equal 7, invoices.count
+    assert_equal 14, invoices.count
   end
 
 end

@@ -17,7 +17,7 @@ class InvoiceItemRepositoryTest < Minitest::Test
   end
 
   def test_it_has_custom_inspect
-    assert_equal "#<InvoiceItemRepository: 12 rows>", @invoice_item.inspect
+    assert_equal "#<InvoiceItemRepository: 42 rows>", @invoice_item.inspect
   end
 
   def test_find_invoice_by_id_calls_parent
@@ -46,7 +46,7 @@ class InvoiceItemRepositoryTest < Minitest::Test
 
   def test_it_retrieves_all_item_objects
     assert_equal InvoiceItem, @invoice_item.all[0].class
-    assert_equal 12, @invoice_item.all.count
+    assert_equal 42, @invoice_item.all.count
   end
 
   def test_item_ids_are_uniq

@@ -17,7 +17,7 @@ class CustomerRepositoryTest < Minitest::Test
   end
 
   def test_it_has_custom_inspect
-    assert_equal "#<CustomerRepository: 11 rows>", customer_repo.inspect
+    assert_equal "#<CustomerRepository: 21 rows>", customer_repo.inspect
   end
 
   def test_find_all_by_merchant_id_calls_parent
@@ -40,7 +40,7 @@ class CustomerRepositoryTest < Minitest::Test
 
   def test_it_retrieves_all_item_objects
     assert_equal Customer, customer_repo.all[0].class
-    assert_equal 11, customer_repo.all.count
+    assert_equal 21, customer_repo.all.count
   end
 
   def test_item_ids_are_uniq
@@ -65,7 +65,7 @@ class CustomerRepositoryTest < Minitest::Test
 
   def test_it_finds_all_items_by_a_fragment_first_name
     customers  = customer_repo.find_all_by_first_name("ar")
-    assert_equal 2, customers.count
+    assert_equal 3, customers.count
   end
 
   def test_it_returns_empty_array_if_no_first_names_are_found

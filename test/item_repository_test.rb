@@ -17,7 +17,7 @@ class ItemRepositoryTest < Minitest::Test
   end
 
   def test_it_has_custom_inspect
-    assert_equal "#<ItemRepository: 12 rows>", @item_repo.inspect
+    assert_equal "#<ItemRepository: 42 rows>", @item_repo.inspect
   end
 
   def test_find_all_by_merchant_id_calls_parent
@@ -39,12 +39,12 @@ class ItemRepositoryTest < Minitest::Test
   end
 
   def test_it_calls_name_of_item_object
-    assert_equal "510+ RealPush Icon Set", @item_repo.all[0].name
+    assert_equal "The George Daddy", @item_repo.all[0].name
   end
 
   def test_it_retrieves_all_item_objects
     assert_equal Item, @item_repo.all[0].class
-    assert_equal 12, @item_repo.all.count
+    assert_equal 42, @item_repo.all.count
   end
 
   def test_item_ids_are_uniq
@@ -120,7 +120,7 @@ class ItemRepositoryTest < Minitest::Test
     merchant_id = 5
     items = @item_repo.find_all_by_merchant_id(merchant_id)
     assert_equal Item, items.first.class
-    assert_equal 2, items.map{|item| item.merchant_id}.count
+    assert_equal 3, items.map{|item| item.merchant_id}.count
   end
 
   def test_it_returns_nil_if_merchant_id_is_not_found
