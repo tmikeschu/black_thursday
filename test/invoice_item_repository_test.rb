@@ -36,40 +36,52 @@ class InvoiceItemRepositoryTest < Minitest::Test
     assert_equal CSV, @invoice_item.file_contents.class
   end
 
-  def test_it_generates_array_of_item_objects_from_csv_object
+  def test_it_generates_array_of_invoice_item_objects_from_csv_object
     assert @invoice_item.all.all?{|row| row.class == InvoiceItem}
   end
 
-  def test_it_calls_id_of_item_object
+  def test_it_calls_id_of_invoice_item_object
     assert_equal 1, @invoice_item.all[0].id
+    assert_equal 6, @invoice_item.all[5].id
   end
 
-  def test_it_retrieves_all_item_objects
-    assert_equal InvoiceItem, @invoice_item.all[0].class
+  def test_it_retrieves_all_invoice_item_objects
     assert_equal 42, @invoice_item.all.count
   end
 
-  def test_item_ids_are_uniq
+  def test_invoice_item_ids_are_uniq
     ids = @invoice_item.all {|row| row[:id]}
     assert_equal ids, ids.uniq
   end
 
-  def test_it_finds_item_by_id
-    id = 1
-    item = @invoice_item.find_by_id(id)
-    assert_equal InvoiceItem, item.class
-    assert_equal id, item.id
+  def test_it_finds_invoice_item_by_id
+    invoice_item = @invoice_item.find_by_id(1)
+    assert_equal InvoiceItem, invoice_item.class
+    assert_equal 1, invoice_item.id
+  end
+
+  def test_it_finds_invoice_item_by_different_id
+    invoice_item = @invoice_item.find_by_id(14)
+    assert_equal InvoiceItem, invoice_item.class
+    assert_equal 14, invoice_item.id
   end
 
   def test_it_returns_nil_if_id_not_found
     id = 123
-    item = @invoice_item.find_by_id(id)
-    assert_equal nil, item
+    invoice_item = @invoice_item.find_by_id(id)
+    assert_nil invoice_item
   end
 
-  def test_it_finds_all_items_by_item_id
+  def test_it_finds_all_invoice_items_by_item_id
     invoice_items = @invoice_item.find_all_by_item_id(8)
     assert_equal 1, invoice_items.map{|item| item.item_id}.count
+    assert invoice_items.all?{|item| item.class == InvoiceItem}
+  end
+
+  def test_it_finds_all_invoice_items_by_different_item_id
+    invoice_items = @invoice_item.find_all_by_item_id(7)
+    assert_equal 4, invoice_items.map{|item| item.item_id}.count
+    assert invoice_items.all?{|item| item.class == InvoiceItem}
   end
 
   def test_it_returns_nil_if_item_id_not_found
@@ -78,11 +90,16 @@ class InvoiceItemRepositoryTest < Minitest::Test
     assert_equal [], invoice_item
   end
 
-  def test_it_finds_items_by_invoice_id
-    invoice_id = 2
-    invoice_items = @invoice_item.find_all_by_invoice_id(invoice_id)
-    assert_equal InvoiceItem, invoice_items.first.class
-    assert_equal 2, invoice_items.map{|item| item.invoice_id}.count
+  def test_it_finds_invoice_items_by_invoice_id
+    invoice_items = @invoice_item.find_all_by_invoice_id(2)
+    assert invoice_items.all?{|item| item.class == InvoiceItem}
+    assert invoice_items.all?{|item| item.invoice_id == 2}
+  end
+
+  def test_it_finds_invoice_items_by_different_invoice_id
+    invoice_items = @invoice_item.find_all_by_invoice_id(17)
+    assert invoice_items.all?{|item| item.class == InvoiceItem}
+    assert invoice_items.all?{|item| item.invoice_id == 17}
   end
 
   def test_it_returns_empty_array_if_invoice_id_not_found
