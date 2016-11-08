@@ -1,0 +1,29 @@
+<html>
+  <head>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+      google.charts.load('current', {'packages':['table']});
+      google.charts.setOnLoadCallback(drawTable);
+
+      function drawTable() {
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Merchant Name');
+        data.addColumn('number', 'Total Revenue');
+        data.addRows([
+          ["HoggardWoodworks", {v: 212752.27, f: '$212752.27'}],
+          ["GiveEmPropsStudio",  {v: 206181.95,   f: '$206181.95'}],
+          ["MomsTshirts", {v: 202863.97, f: '$202863.97'}],
+          ["VIXU",  {v: 195351.52,  f: '$195351.52'}],
+          ["shop20161", {v: 176316.68,  f: '$176316.68'}]
+        ]);
+
+        var table = new google.visualization.Table(document.getElementById('table_div'));
+
+        table.draw(data, {showRowNumber: true, width: '50%', height: '50%'});
+      }
+    </script>
+  </head>
+  <body>
+    <div id="table_div"></div>
+  </body>
+</html>
