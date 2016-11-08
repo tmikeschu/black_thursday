@@ -81,6 +81,9 @@ class FindFunctionsTest < Minitest::Test
     assert equivalence_needed?(:unit_price)
     assert equivalence_needed?(:merchant_id)
     assert equivalence_needed?(:customer_id)
+    assert equivalence_needed?(:invoice_id)
+    assert equivalence_needed?(:invoice_item_id)
+    assert equivalence_needed?(:result)
     assert equivalence_needed?(:status)
     refute equivalence_needed?(:name)
   end

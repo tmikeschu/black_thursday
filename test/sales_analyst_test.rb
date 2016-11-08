@@ -46,7 +46,7 @@ class SalesAnalystTest < Minitest::Test
 
   def test_average_items_per_merchant_returns_a_float
     assert Float, sales_analyst.average_items_per_merchant.class
-    assert_equal 0.76, sales_analyst.average_items_per_merchant
+    assert_equal 2.13, sales_analyst.average_items_per_merchant
   end
 
   def test_it_calls_sales_engine_object
@@ -54,24 +54,23 @@ class SalesAnalystTest < Minitest::Test
   end
 
   def test_avg_items_per_merch_std_dev_returns_std_dev
-    assert_equal 2.02, sales_analyst.average_items_per_merchant_standard_deviation
+    assert_equal 1.89, sales_analyst.average_items_per_merchant_standard_deviation
   end
 
   def test_average_item_price_per_merchant_returns_a_Big_Decimal
-    assert BigDecimal, sales_analyst.average_item_price_for_merchant(12334185).class
+    assert BigDecimal, sales_analyst.average_item_price_for_merchant(3).class
   end
 
   def test_it_calculates_the_average_item_price_per_merchant
-    expected = 11.17
-    result = sales_analyst.average_item_price_for_merchant(12334185)
-    assert_equal expected, result.to_f
+    result = sales_analyst.average_item_price_for_merchant(3)
+    assert_equal 15.16, result.to_f
   end
 
   def test_it_finds_merchants_with_items_greater_than_one_std_dev
     high_rollers = sales_analyst.merchants_with_high_item_count
     assert high_rollers.all?{|merchant| merchant.class == Merchant}
-    assert high_rollers.all?{|merchant| merchant.items.count > 2.92}
-    assert_equal 10, high_rollers.count
+    assert high_rollers.all?{|merchant| merchant.items.count > 4.21}
+    assert_equal 4, high_rollers.count
   end
 
   def test_average_average_price_per_merchant_returns_a_Big_Decimal
@@ -79,24 +78,24 @@ class SalesAnalystTest < Minitest::Test
   end
 
   def test_it_finds_the_average_of_average_price_per_merchant
-    assert_equal 814.8, sales_analyst.average_average_price_per_merchant
+    assert_equal BigDecimal.new('0.10042E3'), sales_analyst.average_average_price_per_merchant
   end
 
   def test_golden_items_returns_items_with_price_greater_than_2_std_devs_above_avg_price
     gold_items = sales_analyst.golden_items
-    assert gold_items.all?{|item| item.unit_price > 18221.5}
+    assert gold_items.all?{|item| item.unit_price > 6.42}
     assert gold_items.all?{|item| item.class == Item}
     assert_equal 1, gold_items.count
   end
 
   def test_average_invoices_per_merchant_returns_a_float_average
     assert_equal Float, sales_analyst.average_invoices_per_merchant.class
-    assert_equal  0.11, sales_analyst.average_invoices_per_merchant
+    assert_equal  1.65, sales_analyst.average_invoices_per_merchant
   end
   
   def test_invoices_per_merchant_standard_deviation
     assert_equal Float, sales_analyst.average_invoices_per_merchant_standard_deviation.class
-    assert_equal 0.32, sales_analyst.average_invoices_per_merchant_standard_deviation
+    assert_equal 1.2, sales_analyst.average_invoices_per_merchant_standard_deviation
   end
 
   def test_top_merchants_by_invoice_count_returns_array_of_top_merchants
@@ -117,15 +116,15 @@ class SalesAnalystTest < Minitest::Test
   end
 
   def test_average_invoices_per_day
-    assert_equal 10.57, sales_analyst.average_invoices_per_day
+    assert_equal 8.0, sales_analyst.average_invoices_per_day
   end
 
   def test_average_invoices_per_day_std_dev
-    assert_equal 3.1, sales_analyst.average_invoices_per_day_standard_deviation
+    assert_equal 3.83, sales_analyst.average_invoices_per_day_standard_deviation
   end
 
   def test_top_days_by_invoice_count_returns_top_day_or_days
-    assert_equal ["Friday"], sales_analyst.top_days_by_invoice_count
+    assert_equal ["Saturday"], sales_analyst.top_days_by_invoice_count
   end
   
   def test_invoice_status_returns_a_float
@@ -135,7 +134,7 @@ class SalesAnalystTest < Minitest::Test
 
   def test_invoice_status_returns_the_percentage_of_the_status
     status = :pending
-    assert_equal 28.38, sales_analyst.invoice_status(status)
+    assert_equal 41.07, sales_analyst.invoice_status(status)
   end
 
   def test_total_revenue_by_date_returns_total_rev_by_date
@@ -149,15 +148,15 @@ class SalesAnalystTest < Minitest::Test
   end
 
   def test_top_revenue_earners
-    assert_equal Merchant, sales_analyst.top_revenue_earners(5)[2].class
+    assert_equal Merchant, sales_analyst.top_revenue_earners(5).first.class
   end
 
   def test_merchants_ranked_by_revenue
-    assert_equal Merchant, sales_analyst.merchants_ranked_by_revenue[2].class
+    assert_equal Merchant, sales_analyst.merchants_ranked_by_revenue.first.class
   end
 
   def test_invoices_total_returns_a_fixnum_sum
-    invoices = sales_analyst.sales_engine.find_invoices(12335938)
+    invoices = sales_analyst.sales_engine.find_invoices(5)
     assert_equal Fixnum, sales_analyst.invoices_total(invoices).class
   end
 
@@ -168,7 +167,7 @@ class SalesAnalystTest < Minitest::Test
   end
 
   def test_merchants_with_pending_invoices
-    assert_equal Merchant, sales_analyst.merchants_with_pending_invoices[1].class
+    assert_equal Merchant, sales_analyst.merchants_with_pending_invoices.first.class
   end
 
   def test_pending_invoices
@@ -176,9 +175,10 @@ class SalesAnalystTest < Minitest::Test
   end
 
   def test_pending
-    invoice = sales_analyst.sales_engine.find_invoice_by_id(58)
-    invoice2 = sales_analyst.sales_engine.find_invoice_by_id(14)
+    invoice = sales_analyst.sales_engine.find_invoice_by_id(9)
+    invoice2 = sales_analyst.sales_engine.find_invoice_by_id(8)
     assert sales_analyst.pending?(invoice)
+    refute sales_analyst.pending?(invoice2)
   end
 
   def test_merchants_with_only_one_item
@@ -186,7 +186,7 @@ class SalesAnalystTest < Minitest::Test
   end
 
   def test_merchants_with_only_one_item_registered_in_month
-    assert_equal Merchant, sales_analyst.merchants_with_only_one_item_registered_in_month("December")[0].class
+    assert_equal Merchant, sales_analyst.merchants_with_only_one_item_registered_in_month("June").first.class
   end
   
   def test_merchants_by_reg_month_returns_hash_of_month_keys_and_merchant_values
@@ -196,7 +196,7 @@ class SalesAnalystTest < Minitest::Test
   end
 
   def test_revenue_by_merchant_returns_revenue_total
-    assert_equal 0, sales_analyst.revenue_by_merchant(12334105)
+    assert_equal BigDecimal.new('0.7348E2'), sales_analyst.revenue_by_merchant(3)
   end
 
   def test_most_sold_item_for_merchant_is_an_array

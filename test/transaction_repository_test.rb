@@ -17,7 +17,7 @@ class TransactionRepositoryTest < Minitest::Test
   end
 
   def test_it_has_custom_inspect
-    assert_equal "#<TransactionRepository: 74 rows>", @transaction_repo.inspect
+    assert_equal "#<TransactionRepository: 67 rows>", @transaction_repo.inspect
   end
 
   def test_find_invoice_by_id_calls_parent
@@ -41,11 +41,23 @@ class TransactionRepositoryTest < Minitest::Test
     assert_equal 3, transaction.id
   end
 
+  def test_find_by_different_id
+    transaction = @transaction_repo.find_by_id(21)
+    assert transaction
+    assert_equal Transaction, transaction.class
+    assert_equal 21, transaction.id
+  end
+
   def test_find_all_by_invoice_id_finds_all_transactions
-    transactions = @transaction_repo.find_all_by_invoice_id(2179)
-    assert transactions
+    transactions = @transaction_repo.find_all_by_invoice_id(14)
     assert transactions.all? {|transaction| transaction.class == Transaction}
-    assert transactions.all? {|transaction| transaction.invoice_id == 2179}
+    assert transactions.all? {|transaction| transaction.invoice_id == 14}
+  end
+
+  def test_find_all_by_different_invoice_id
+    transactions = @transaction_repo.find_all_by_invoice_id(7)
+    assert transactions.all? {|transaction| transaction.class == Transaction}
+    assert transactions.all? {|transaction| transaction.invoice_id == 7}
   end
   
   def test_find_all_by_credit_card_number_finds_all_transactions
@@ -55,11 +67,25 @@ class TransactionRepositoryTest < Minitest::Test
     assert transactions.all? {|transaction| transaction.credit_card_number == 4068631943231473}
   end
   
+  def test_find_all_by_different_credit_card
+    transactions = @transaction_repo.find_all_by_credit_card_number(4257133712179878)
+    assert transactions
+    assert transactions.all? {|transaction| transaction.class == Transaction}
+    assert transactions.all? {|transaction| transaction.credit_card_number == 4257133712179878}
+  end
+  
   def test_find_all_by_result_finds_all_transactions
     transactions = @transaction_repo.find_all_by_result("success")
     assert transactions
     assert transactions.all? {|transaction| transaction.class == Transaction}
     assert transactions.all? {|transaction| transaction.result == "success"}
+  end
+  
+  def test_find_all_by_different_result
+    transactions = @transaction_repo.find_all_by_result("failed")
+    assert transactions
+    assert transactions.all? {|transaction| transaction.class == Transaction}
+    assert transactions.all? {|transaction| transaction.result == "failed"}
   end
 
 end
