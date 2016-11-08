@@ -65,10 +65,23 @@ class CustomerRepositoryTest < Minitest::Test
     assert_equal ["Ramona", "Ramona"], customers.map{|customer| customer.first_name}
   end
 
+  def test_it_finds_all_customers_by_different_first_name
+    customers  = customer_repo.find_all_by_first_name("Michael")
+    assert_equal 2, customers.count
+    assert customers.all?{|customer| customer.class == Customer}
+    assert_equal ["Michael", "GeorgeMichael"], customers.map{|customer| customer.first_name}
+  end
+
   def test_it_finds_all_customers_by_a_fragment_first_name
     customers  = customer_repo.find_all_by_first_name("ar")
     assert_equal 3, customers.count
     assert_equal ["Mariah", "Parker", "Oscar"], customers.map {|customer| customer.first_name}
+  end
+
+  def test_it_finds_all_customers_by_a_different_fragment_first_name
+    customers  = customer_repo.find_all_by_first_name("be")
+    assert_equal 1, customers.count
+    assert_equal ["Heber"], customers.map {|customer| customer.first_name}
   end
 
   def test_it_returns_empty_array_if_no_first_names_are_found
@@ -81,6 +94,13 @@ class CustomerRepositoryTest < Minitest::Test
     assert_equal 2, customers.count
     assert customers.all?{|customer| customer.class == Customer}    
     assert_equal ["Nader", "Fadel"], customers.map {|customer| customer.last_name}
+  end
+
+  def test_it_finds_all_customers_by_a_fragment_last_name
+    customers  = customer_repo.find_all_by_last_name("lu")
+    assert_equal 8, customers.count
+    assert customers.all?{|customer| customer.class == Customer}    
+    assert_equal ["Bluth"]*8, customers.map {|customer| customer.last_name}
   end
 
   def test_it_returns_empty_array_if_no_last_names_are_found
