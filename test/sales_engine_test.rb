@@ -55,9 +55,9 @@ class SalesEngineTest < Minitest::Test
   end
 
   def test_find_merchant_by_id_returns_merchant_object
-    expected = sales_engine.find_merchant_by_id(12334112)
+    expected = sales_engine.find_merchant_by_id(7)
     assert_equal Merchant, expected.class
-    assert_equal expected.id, sales_engine.merchants.find_by_id(12334112).id
+    assert_equal expected.id, sales_engine.merchants.find_by_id(7).id
   end
 
   def test_find_invoices_finds_them
@@ -73,9 +73,9 @@ class SalesEngineTest < Minitest::Test
   end
 
   def test_find_item_by_id_returns_item_object
-    expected = sales_engine.find_item_by_id(263400121)
+    expected = sales_engine.find_item_by_id(3)
     assert_equal Item, expected.class
-    assert_equal expected.id, sales_engine.items.find_by_id(263400121).id
+    assert_equal expected.id, sales_engine.items.find_by_id(3).id
   end
 
   def test_find_customer_by_id_returns_customer_object
@@ -85,8 +85,8 @@ class SalesEngineTest < Minitest::Test
   end
 
   def test_find_items_by_invoice_id_finds_them
-    expected = sales_engine.find_items_by_invoice_id(14)
-    assert expected.all?{|item| item.class == Item}
+    expected = sales_engine.find_items_by_invoice_id(1)
+    assert_equal true, expected.all?{|item| item.class == Item}
   end
 
   def test_find_transactions_by_invoice_id_finds_them
@@ -144,7 +144,7 @@ class SalesEngineTest < Minitest::Test
   def test_all_customers_returns_array_of_all_customers
     assert_equal Array, sales_engine.all_customers.class
     assert sales_engine.all_customers.all? { |invoice_item| invoice_item.class == Customer}
-    assert_equal sales_engine.customers.all.count, sales_engine.all_invoice_items.count
+    assert_equal sales_engine.customers.all.count, sales_engine.all_customers.count
   end
 
 end

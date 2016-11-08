@@ -126,10 +126,10 @@ class InvoiceTest < Minitest::Test
       :invoice_items => "./data/test_invoice_items.csv",
       :transactions  => "./data/test_transactions.csv"      
     })
-    invoice = sales_engine.find_invoice_by_id(14)
-    expected = BigDecimal.new('0.2249684E5')
-    assert_equal expected, invoice.total
     invoice = sales_engine.find_invoice_by_id(8)
+    expected = BigDecimal.new('0.615528E4')
+    assert_equal expected, invoice.total
+    invoice = sales_engine.find_invoice_by_id(9)
     assert_equal 0, invoice.total
   end
 
@@ -138,7 +138,7 @@ class InvoiceTest < Minitest::Test
       :invoices      => "./data/test_invoices.csv",
       :transactions  => "./data/test_transactions.csv"
     })
-    invoice = sales_engine.find_invoice_by_id(14)
+    invoice = sales_engine.find_invoice_by_id(8)
     assert_equal true, invoice.is_paid_in_full?
   end
 
