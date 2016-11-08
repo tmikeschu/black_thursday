@@ -2,7 +2,7 @@ require_relative 'statistics'
 require 'date'
 
 class PendingAnalyst
-  
+
   include Statistics
 
   attr_reader :sales_engine
@@ -17,7 +17,7 @@ class PendingAnalyst
 
   def invoices
     sales_engine.all_invoices
-  end 
+  end
 
   def merchants_with_pending_invoices
     pending_invoices.map { |pender| pender.merchant }.uniq

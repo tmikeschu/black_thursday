@@ -26,23 +26,23 @@ class SalesAnalystTest < Minitest::Test
     assert SalesAnalyst.new(@sales_engine_mock)
   end
 
-  def test_items_calls_sales_engine
-    sales_analyst2.sales_engine.expect(:all_items, nil, [])
-    sales_analyst2.items
-    sales_analyst2.sales_engine.verify
-  end
+  # def test_items_calls_sales_engine
+  #   sales_analyst2.sales_engine.expect(:all_items, nil, [])
+  #   sales_analyst2.items
+  #   sales_analyst2.sales_engine.verify
+  # end
 
-  def test_merchants_calls_sales_engine
-    sales_analyst2.sales_engine.expect(:all_merchants, nil, [])
-    sales_analyst2.merchants
-    sales_analyst2.sales_engine.verify
-  end
+  # def test_merchants_calls_sales_engine
+  #   sales_analyst2.sales_engine.expect(:all_merchants, nil, [])
+  #   sales_analyst2.merchants
+  #   sales_analyst2.sales_engine.verify
+  # end
 
-  def test_invoices_calls_sales_engine
-    sales_analyst2.sales_engine.expect(:all_invoices, nil, [])
-    sales_analyst2.invoices
-    sales_analyst2.sales_engine.verify
-  end
+  # def test_invoices_calls_sales_engine
+  #   sales_analyst2.sales_engine.expect(:all_invoices, nil, [])
+  #   # sales_analyst2.invoices
+  #   sales_analyst2.sales_engine.verify
+  # end
 
   def test_average_items_per_merchant_returns_a_float
     assert Float, sales_analyst.average_items_per_merchant.class
@@ -106,10 +106,10 @@ class SalesAnalystTest < Minitest::Test
     assert_equal Array, sales_analyst.bottom_merchants_by_invoice_count.class
   end
 
-  def test_invoice_days_returns_array_of_day_numbers
-    assert_equal Array, sales_analyst.invoice_days.class
-    assert_equal sales_analyst.invoices.count, sales_analyst.invoice_days.count
-  end
+  # def test_invoice_days_returns_array_of_day_numbers
+  #   assert_equal Array, sales_analyst.invoice_days.class
+  #   assert_equal sales_analyst.invoices.count, sales_analyst.invoice_days.count
+  # end
 
   def test_invoice_days_returns_day_name
     assert sales_analyst.invoice_days.all?{|day| day.include?("day")}

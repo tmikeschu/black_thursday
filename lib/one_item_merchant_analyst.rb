@@ -2,7 +2,7 @@ require_relative 'statistics'
 require 'date'
 
 class OneItemMerchantAnalyst
-  
+
   include Statistics
 
   attr_reader :sales_engine
@@ -17,7 +17,7 @@ class OneItemMerchantAnalyst
 
   def items
     sales_engine.all_items
-  end 
+  end
 
   def merchants_with_only_one_item
     merchants = items.group_by { |item| item.merchant_id }

@@ -2,7 +2,7 @@ require_relative 'statistics'
 require 'date'
 
 class InvoiceCountAnalyst
-  
+
   include Statistics
 
   attr_reader :sales_engine
@@ -14,7 +14,7 @@ class InvoiceCountAnalyst
   def items
     sales_engine.all_items
   end
-  
+
   def merchants
     sales_engine.all_merchants
   end

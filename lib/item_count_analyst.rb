@@ -2,7 +2,7 @@ require_relative 'statistics'
 require 'date'
 
 class ItemCountAnalyst
-  
+
   include Statistics
 
   attr_reader :sales_engine

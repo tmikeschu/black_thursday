@@ -2,7 +2,7 @@ require_relative 'statistics'
 require 'date'
 
 class MerchantRevenueAnalyst
-  
+
   include Statistics
 
   attr_reader :sales_engine
@@ -17,7 +17,7 @@ class MerchantRevenueAnalyst
 
   def invoices
     sales_engine.all_invoices
-  end 
+  end
 
   def total_revenue_by_date(date)
     total = invoices_total(invoices_on_date(date))
