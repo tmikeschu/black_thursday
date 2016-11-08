@@ -13,7 +13,7 @@ class MerchantRepositoryTest < Minitest::Test
   end
 
   def test_it_has_custom_inspect
-    assert_equal "#<MerchantRepository: 131 rows>", @merch_repo.inspect
+    assert_equal "#<MerchantRepository: 11 rows>", @merch_repo.inspect
   end
 
   def test_it_initializes_with_a_file
@@ -58,7 +58,7 @@ class MerchantRepositoryTest < Minitest::Test
   end
 
   def test_it_calls_id_of_merchant_object
-    assert_equal 12334105, @merch_repo.all[0].id
+    assert_equal 1, @merch_repo.all[0].id
   end
 
   def test_it_calls_name_of_merchant_object
@@ -67,7 +67,7 @@ class MerchantRepositoryTest < Minitest::Test
 
   def test_it_retrieves_all_merchant_objects
     assert_equal Merchant, @merch_repo.all[0].class
-    assert_equal 131, @merch_repo.all.count
+    assert_equal 11, @merch_repo.all.count
   end
 
   def test_merchant_ids_are_uniq
@@ -76,10 +76,9 @@ class MerchantRepositoryTest < Minitest::Test
   end
 
   def test_it_finds_merchant_by_id
-    id = 12334105
-    merchant = @merch_repo.find_by_id(id)
+    merchant = @merch_repo.find_by_id(1)
     assert_equal Merchant, merchant.class
-    assert_equal id, merchant.id
+    assert_equal 1, merchant.id
   end
 
   def test_it_returns_nil_if_id_not_found
@@ -110,7 +109,7 @@ class MerchantRepositoryTest < Minitest::Test
 
   def test_it_finds_all_merchants_by_name
     name      = "shop"
-    shops     = ["Shopin1901", "thepurplepenshop", "Woodenpenshop", "ZazaBoutiqueShop", "Soudoveshop", "WoodleyShop", "ExecutiveGiftShoppe", "CHALKLEYSWOODSHOP", "FrenchiezShop"]
+    shops     = ["Shopin1901", "GoldenRaySHop"]
     merchants = @merch_repo.find_all_by_name(name)
     assert_equal shops, merchants.map{|merchant| merchant.name}
   end
