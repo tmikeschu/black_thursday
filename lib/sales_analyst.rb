@@ -49,35 +49,23 @@ class SalesAnalyst
                  :pending_invoices,
                  :pending?
 
-  def_delegator :one_item_merchant_analyst,
-                :merchants_with_only_one_item
-  def_delegator :one_item_merchant_analyst,
-                :merchants_with_only_one_item_registered_in_month
-  def_delegator :one_item_merchant_analyst,
-                :merchants_by_registration_month
+  def_delegators :one_item_merchant_analyst,
+                 :merchants_with_only_one_item,
+                 :merchants_with_only_one_item_registered_in_month,
+                 :merchants_by_registration_month
 
-  def_delegator :item_revenue_analyst,
-                :most_sold_item_for_merchant
-  def_delegator :item_revenue_analyst,
-                :most_sold_items
-  def_delegator :item_revenue_analyst,
-                :item_quantities
-  def_delegator :item_revenue_analyst,
-                :item_quantities_of_merchant
-  def_delegator :item_revenue_analyst,
-                :all_invoice_items
-  def_delegator :item_revenue_analyst,
-                :complete_invoices
-  def_delegator :item_revenue_analyst,
-                :best_item_for_merchant
-  def_delegator :item_revenue_analyst,
-                :item_revenues_of_merchant
-  def_delegator :item_revenue_analyst,
-                :item_revenues
-  def_delegator :item_revenue_analyst,
-                :best_items
-  def_delegator :item_revenue_analyst,
-                :top_items_by_revenue
+  def_delegators :item_revenue_analyst,
+                 :most_sold_item_for_merchant,
+                 :most_sold_items,
+                 :item_quantities,
+                 :item_quantities_of_merchant,
+                 :all_invoice_items,
+                 :complete_invoices,
+                 :best_item_for_merchant,
+                 :item_revenues_of_merchant,
+                 :item_revenues,
+                 :best_items,
+                 :top_items_by_revenue
 
   attr_reader :sales_engine, :item_count_analyst,
               :item_price_analyst, :invoice_count_analyst,
