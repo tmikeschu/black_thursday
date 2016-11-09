@@ -4,16 +4,16 @@ require 'date'
 
 class ItemRevenueAnalyst
 
-  extend Forwardable
-
-  def_delegator :pending_analyst, :merchants_with_pending_invoices
-  def_delegator :pending_analyst, :pending_invoices
-  def_delegator :pending_analyst, :pending?
-
   include Statistics
 
-  attr_reader :sales_engine,
-              :pending_analyst
+  extend Forwardable
+
+  def_delegators :@pending_analyst,
+                 :merchants_with_pending_invoices,
+                 :pending_invoices,
+                 :pending?
+
+  attr_reader :sales_engine
 
   def initialize(sales_engine)
     @sales_engine    = sales_engine

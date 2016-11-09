@@ -10,103 +10,65 @@ require 'date'
 class SalesAnalyst
 
   extend Forwardable
-  def_delegator :item_count_analyst,
-                :average_items_per_merchant
-  def_delegator :item_count_analyst,
-                :average_items_per_merchant_standard_deviation
-  def_delegator :item_count_analyst,
-                :merchants_with_high_item_count
 
-  def_delegator :item_price_analyst,
-                :average_item_price_for_merchant
-  def_delegator :item_price_analyst,
-                :average_average_price_per_merchant
-  def_delegator :item_price_analyst,
-                :golden_items
-  def_delegator :item_price_analyst,
-                :average_item_price
-  def_delegator :item_price_analyst,
-                :item_price_standard_deviation
+  def_delegators :@item_count_analyst,
+                 :average_items_per_merchant,
+                 :average_items_per_merchant_standard_deviation,
+                 :merchants_with_high_item_count
 
-  def_delegator :invoice_count_analyst,
-                :average_invoices_per_merchant
-  def_delegator :invoice_count_analyst,
-                :average_invoices_per_merchant_standard_deviation
-  def_delegator :invoice_count_analyst,
-                :top_merchants_by_invoice_count
-  def_delegator :invoice_count_analyst,
-                :bottom_merchants_by_invoice_count
-  def_delegator :invoice_count_analyst,
-                :top_days_by_invoice_count
-  def_delegator :invoice_count_analyst,
-                :invoices_by_day
-  def_delegator :invoice_count_analyst,
-                :invoice_days
-  def_delegator :invoice_count_analyst,
-                :average_invoices_per_day
-  def_delegator :invoice_count_analyst,
-                :average_invoices_per_day_standard_deviation
-  def_delegator :invoice_count_analyst,
-                :invoice_status
-  def_delegator :invoice_count_analyst,
-                :all_invoices_by_status
+  def_delegators :@item_price_analyst,
+                 :average_item_price_for_merchant,
+                 :average_average_price_per_merchant,
+                 :golden_items,
+                 :average_item_price,
+                 :item_price_standard_deviation
 
-  def_delegator :merchant_revenue_analyst,
-                :total_revenue_by_date
-  def_delegator :merchant_revenue_analyst,
-                :invoices_on_date
-  def_delegator :merchant_revenue_analyst,
-                :top_revenue_earners
-  def_delegator :merchant_revenue_analyst,
-                :merchants_ranked_by_revenue
-  def_delegator :merchant_revenue_analyst,
-                :invoices_total
-  def_delegator :merchant_revenue_analyst,
-                :merchants_and_invoices
-  def_delegator :merchant_revenue_analyst,
-                :revenue_by_merchant
+  def_delegators :@invoice_count_analyst,
+                 :average_invoices_per_merchant,
+                 :average_invoices_per_merchant_standard_deviation,
+                 :top_merchants_by_invoice_count,
+                 :bottom_merchants_by_invoice_count,
+                 :top_days_by_invoice_count,
+                 :invoices_by_day,
+                 :invoice_days,
+                 :average_invoices_per_day,
+                 :average_invoices_per_day_standard_deviation,
+                 :invoice_status,
+                 :all_invoices_by_status
 
-  def_delegator :pending_analyst,
-                :merchants_with_pending_invoices
-  def_delegator :pending_analyst,
-                :pending_invoices
-  def_delegator :pending_analyst,
-                :pending?
+  def_delegators :@merchant_revenue_analyst,
+                 :total_revenue_by_date,
+                 :invoices_on_date,
+                 :top_revenue_earners,
+                 :merchants_ranked_by_revenue,
+                 :invoices_total,
+                 :merchants_and_invoices,
+                 :revenue_by_merchant
 
-  def_delegator :one_item_merchant_analyst,
-                :merchants_with_only_one_item
-  def_delegator :one_item_merchant_analyst,
-                :merchants_with_only_one_item_registered_in_month
-  def_delegator :one_item_merchant_analyst,
-                :merchants_by_registration_month
+  def_delegators :@pending_analyst,
+                 :merchants_with_pending_invoices,
+                 :pending_invoices,
+                 :pending?
 
-  def_delegator :item_revenue_analyst,
-                :most_sold_item_for_merchant
-  def_delegator :item_revenue_analyst,
-                :most_sold_items
-  def_delegator :item_revenue_analyst,
-                :item_quantities
-  def_delegator :item_revenue_analyst,
-                :item_quantities_of_merchant
-  def_delegator :item_revenue_analyst,
-                :all_invoice_items
-  def_delegator :item_revenue_analyst,
-                :complete_invoices
-  def_delegator :item_revenue_analyst,
-                :best_item_for_merchant
-  def_delegator :item_revenue_analyst,
-                :item_revenues_of_merchant
-  def_delegator :item_revenue_analyst,
-                :item_revenues
-  def_delegator :item_revenue_analyst,
-                :best_items
-  def_delegator :item_revenue_analyst,
-                :top_items_by_revenue
+  def_delegators :@one_item_merchant_analyst,
+                 :merchants_with_only_one_item,
+                 :merchants_with_only_one_item_registered_in_month,
+                 :merchants_by_registration_month
 
-  attr_reader :sales_engine, :item_count_analyst,
-              :item_price_analyst, :invoice_count_analyst,
-              :merchant_revenue_analyst, :pending_analyst,
-              :one_item_merchant_analyst, :item_revenue_analyst
+  def_delegators :@item_revenue_analyst,
+                 :most_sold_item_for_merchant,
+                 :most_sold_items,
+                 :item_quantities,
+                 :item_quantities_of_merchant,
+                 :all_invoice_items,
+                 :complete_invoices,
+                 :best_item_for_merchant,
+                 :item_revenues_of_merchant,
+                 :item_revenues,
+                 :best_items,
+                 :top_items_by_revenue
+
+  attr_reader :sales_engine
 
   def initialize(sales_engine)
     @sales_engine              = sales_engine
