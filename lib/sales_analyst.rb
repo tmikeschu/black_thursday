@@ -10,7 +10,7 @@ require 'date'
 class SalesAnalyst
 
   extend Forwardable
-  
+
   def_delegators :@item_count_analyst,
                  :average_items_per_merchant,
                  :average_items_per_merchant_standard_deviation,

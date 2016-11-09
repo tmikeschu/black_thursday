@@ -8,9 +8,9 @@ class ItemRevenueAnalyst
 
   extend Forwardable
 
-  def_delegators :@pending_analyst, 
+  def_delegators :@pending_analyst,
                  :merchants_with_pending_invoices,
-                 :pending_invoices, 
+                 :pending_invoices,
                  :pending?
 
   attr_reader :sales_engine
